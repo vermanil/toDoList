@@ -7,12 +7,9 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var db = require('./model/start');
 
 var app = express();
-
-app.listen(3000, function () {
-  console.log("server listening at server 127.0.0.1 on port 3000")
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

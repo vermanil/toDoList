@@ -1,2 +1,33 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<!--<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="/javascripts/main.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+<div ng-app = "toDo" ng-controller="todoCtrl">
+    <h2>My ToDo List</h2>
+    <form ng-submit = "addTask()">
+        <input type="text" ng-model="giveInput" placeholder="Add new">
+        <br>
+        <br>
+        <input type="submit" value="Add new">
+    </form>
+    <br>
+
+
+    <div ng-repeat="x in toDoList">
+      <!--<input type="text" ng-model="x.done">--><span ng-bind="x.todoText"></span>
+    </div>
+</div>
+</div>
+    <div class="col-lg-4">
+        <a href="users/login">Login</a>
+        <br>
+        <a href="users/register">Register</a>
+    </div>
+</div>
+</div>
