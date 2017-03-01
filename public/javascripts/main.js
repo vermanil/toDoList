@@ -8,8 +8,8 @@ app.controller('todoCtrl', function ($scope, $http) {
         method : "GET",
         url : '/todo'
     }).then(function mySuccess(response) {
-        //$scope.myWelcome = response.data;
-        console.log(response.data)
+        $scope.myWelcome = response.data.todo;
+        console.log(response.data.todo)
     }, function myError(response) {
         $scope.myWelcome = response.statusText;
     });

@@ -20,8 +20,12 @@ router.use(session(expressOptions));
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-  res.render('index', {});
+  res.render('index1', {});
 });
+
+router.get('/index', function (req, res,next) {
+    res.render('index', {});
+})
 
 router.post('/login', function (req, res, next){
     user.findOne({username:req.body.username}, function (err, logindata) {
@@ -33,7 +37,7 @@ router.post('/login', function (req, res, next){
             sess.userData = logindata;
             //alert('successfully login');
             res.render('index', {});
-            res.redirect('/');
+            res.redirect('/index');
         }
         else
             console.log("invalid username or password");
@@ -41,8 +45,20 @@ router.post('/login', function (req, res, next){
 
 });
 
+router.get('/logout', function (req, res, next) {
+    req.session.destroy(function (err) {
+        if (err)
+            res.send(err);
+
+        res.redirect('/');
+
+    });
+});
+
 router.get('/todo', function (req, res, next) {
-    user.find({todo: { $exists: true }}, function (err, data) {
+/*    user.find({todo: { $exists: true }}, function (err, data)*/
+    id = req.session.userData._id;
+    user.findById(id, function(err, data) {
         if (err)
             console.log(err)
         //console.log(data[0].todo);
@@ -55,12 +71,15 @@ router.post('/do', function (req, res, next) {
     console.log("helo");
     id = req.session.userData._id;
     user.findById(id, function(err, data) {
+        var arr = [];
+        arr = data.todo;
+        arr.push(req.body.todo);
         console.log(data);
         console.log(req.body)
         if (err)
             console.log(err)
         /*data.todo = req.body.test;*/
-       data.update(req.body, function(err){
+       data.update({todo:arr}, function(err){
            if (err)
                console.log(err);
        });
