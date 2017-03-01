@@ -10,7 +10,9 @@ var user_schema = mongoose.Schema({
     gender : String,
     username : {type : String, unique : true},
     password : String,
+    todo : [{type: String, default : ""}],
     });
 
 var user = mongoose.model('user', user_schema);
+
 module.exports = user;
