@@ -3,6 +3,7 @@ var router = express.Router();
 var session = require('express-session');
 var app = express();
 var user = require('../model/register_schema');
+var nodemailer = require('nodemailer');
 
 var expressOptions = {
     secret: "secret",
@@ -74,8 +75,8 @@ router.post('/do', function (req, res, next) {
         var arr = [];
         arr = data.todo;
         arr.push(req.body.todo);
-        console.log(data);
-        console.log(req.body)
+        //console.log(data);
+        //console.log(req.body)
         if (err)
             console.log(err)
         /*data.todo = req.body.test;*/
@@ -85,12 +86,42 @@ router.post('/do', function (req, res, next) {
        });
     });
     //console.log(req);
-    //res.redirect('/notify');
+    res.redirect('/notify');
     //res.send("hello word");
 });
 
 router.get('/notify', function (req, res, next) {
    console.log('have to Notify');
+/*    user.find({email: { $exists: true }}, function (err, data){
+        if (err)
+            console.log(err)
+        console.log(data[0].email)
+        var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'noreplycheck87@gmail.com', // Your email id
+                pass: 'qwertyuiop!@' // Your password
+            }
+        });
+        var text = 'New task has added \n\n';
+
+        var mailOptions = {
+            from: 'noreplychech87@gmail.com', // sender address
+            to: '201452033@iiitvadodara.ac.in' , // list of receivers
+            subject: 'New Task', // Subject line
+            text: text //, // plaintext body
+            // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error);
+                res.json({yo: 'error'});
+            }else{
+                console.log('Message sent: ' + info.response);
+                res.json({yo: info.response});
+            };
+        });
+    })*/
 });
 /*
 router.post('/', function (req,res,next) {
