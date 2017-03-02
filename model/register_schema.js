@@ -11,6 +11,7 @@ var user_schema = mongoose.Schema({
     username : {type : String, unique : true},
     password : String,
     todo : [{type: String, default : ""}],
+    notification : [{type : String, default: ""}],
     });
 
 var user = mongoose.model('user', user_schema);

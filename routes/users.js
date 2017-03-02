@@ -17,7 +17,7 @@ router.get('/register', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-    user.findOne({username: req.body.username}, function (err, logindata) {
+/*    user.findOne({username: req.body.username}, function (err, logindata) {
         if (err) {
             console.log(err)
         }
@@ -25,7 +25,7 @@ router.post('/login', function (req, res, next) {
             console.log("Alrady username exists");
             res.redirect('/users/register');
         }
-        else {
+        else {*/
             var newUser = user(req.body);
             newUser.save(function (err, newtable) {
                 if (err)
@@ -34,7 +34,7 @@ router.post('/login', function (req, res, next) {
                     res.render('login', {});
                 res.redirect('/users/login');
             });
-        }
-    });
+/*        }
+    });*/
 });
 module.exports = router;

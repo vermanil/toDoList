@@ -5,6 +5,8 @@ var app = express();
 var user = require('../model/register_schema');
 /*var sendmail = require('sendmail')();*/
 var nodemailer = require('nodemailer');
+var http    = require('http').Server(app);
+var io      = require('socket.io')(http);
 var expressOptions = {
     secret: "secret",
     saveUninitialized: false,
