@@ -108,7 +108,7 @@ router.get('/notify', function (req, res, next) {
         emailList = [data[0].email];
         for (i = 1; i < l; i++) {
             emailList.push(data[i].email);
-            emailList.push('anilrajverma1996@gmail.com');
+/*            emailList.push('anilrajverma1996@gmail.com');*/
             console.log(emailList[0]);
             console.log(emailList[0]);
             var tex = 'New task has added in to do list';
