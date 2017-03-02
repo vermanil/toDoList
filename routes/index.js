@@ -31,7 +31,8 @@ router.get('/index', function (req, res,next) {
 router.post('/login', function (req, res, next){
     user.findOne({username:req.body.username}, function (err, logindata) {
         if (err)
-            console.log(err);
+        {  console.log(err)
+        }
         else if (req.body.username === logindata.username && req.body.password === logindata.password)
         {
             var sess = req.session;
@@ -41,7 +42,8 @@ router.post('/login', function (req, res, next){
             res.redirect('/index');
         }
         else
-            console.log("invalid username or password");
+        {   console.log("invalid username or password");
+            res.redirect('/users/login');}
     });
 
 });
@@ -58,13 +60,19 @@ router.get('/logout', function (req, res, next) {
 
 router.get('/todo', function (req, res, next) {
 /*    user.find({todo: { $exists: true }}, function (err, data)*/
-    id = req.session.userData._id;
-    user.findById(id, function(err, data) {
-        if (err)
-            console.log(err)
-        //console.log(data[0].todo);
-        res.send(data);
-    })
+/*    if (typeof req.session.userData == 'undefined')
+    {console.log('you have not logeed in');
+    res.redirect('/')}*/
+
+/*    else {*/
+        id = req.session.userData._id;
+        user.findById(id, function (err, data) {
+            if (err)
+                console.log(err)
+            //console.log(data[0].todo);
+            res.send(data);
+        });
+/*    }*/
 
 });
 
@@ -92,27 +100,31 @@ router.post('/do', function (req, res, next) {
 
 router.get('/notify', function (req, res, next) {
    console.log('have to Notify');
-    var tex = 'New task has added';
-/*    sendmail({
-        from : 'anilrajverma1996@gmail.com',
-        to : 'noreplycheck87@gmail.com',
-        subject : text,
-        html: 'Mail of test sendmail',
-    }, function (err, reply) {
-        console.log(err && err.stack);
-        console.log("sending mail");
-        console.log(reply);
-    });*/
+    var emailList = [];
+    user.find({email: { $exists: true }}, function (err, data){
+        if (err)
+            console.log(err);
+        l = data.length;
+        emailList = [data[0].email];
+        for(i=1;i<l;i++)
+        {
+           emailList.push(data[i].email);
+        }
+        emailList.push('anilrajverma1996@gmail.com');
+        console.log(emailList[0]);
+    });
+    var tex = 'New task has added in to do list';
     var smtpTransport = nodemailer.createTransport({
         service: "gmail",
-        host: "smtp.gmail.com",
         auth: {
             user: "noreplycheck87@gmail.com",
             pass: "qwertyuiop!@"
         }
     });
+
     var mailOptions={
-        to : '201452033@iiitvadodara.ac.in',
+        from : 'noreplycheck87@gmail.com',
+        to : 'rohitdharavath@gmail.com',
         subject : 'task added',
         text : tex
     }
@@ -127,17 +139,7 @@ router.get('/notify', function (req, res, next) {
         }
     });
 });
-/*
-router.post('/', function (req,res,next) {
-    var newTodo = toDo(req.body);
-    newTodo.save(function (req, res, next){
-       if (err)
-           console.log(err)
-        res.render('index', {});
-        //res.redirect('/');
-    });
 
-});*/
 
 console.log("Listening on port 3000");
 
