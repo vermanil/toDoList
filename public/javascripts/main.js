@@ -4,18 +4,21 @@
 
 var app = angular.module('toDo', []);;
 app.controller('todoCtrl', function ($scope, $http) {
+    var l = 0;
     $http({
         method : "GET",
         url : '/todo'
     }).then(function mySuccess(response) {
         $scope.myWelcome = response.data.todo;
-        console.log(response.data.todo)
+        l = $scope.myWelcome.length;
+        $scope.toDoList = [{todoText:$scope.myWelcome[l], done:false}];
+        for (i = 1;i<l;i++) {
+            $scope.toDoList.push({todoText:$scope.myWelcome[i], done:false});
+        }
     }, function myError(response) {
         $scope.myWelcome = response.statusText;
     });
-    console.log($scope.myWelcome)
-    $scope.toDoList = [{todoText:'Clean House', done:true}];
-
+    console.log($scope.myWelcome);
     $scope.addTask = function() {
         //console.log($scope.giveInput);
         var req = {
